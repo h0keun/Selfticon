@@ -1,11 +1,10 @@
 package com.com.mygifticon
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
+import com.com.mygifticon.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,16 +13,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
 
-        bottomNavigationView.background = null
-        bottomNavigationView.menu.getItem(1).isEnabled = false
+        binding.bottomNavigationView.background = null
+        binding.bottomNavigationView.menu.getItem(1).isEnabled = false
 
-        initNavigationBar()
-    }
+        binding.fab.setOnClickListener{
+            val intent = Intent(this, MakeActivity::class.java)
+            startActivity(intent)
+        }
 
-    private fun initNavigationBar(){
-        bottomNavigationView.run{
+        binding.bottomNavigationView.run{
             setOnNavigationItemSelectedListener {
                 when(it.itemId){
                     R.id.list ->{
@@ -37,6 +37,8 @@ class MainActivity : AppCompatActivity() {
             }
             selectedItemId = R.id.list
         }
+
+        setContentView(binding.root)
     }
 
     private fun changeFragment(fragment: Fragment){

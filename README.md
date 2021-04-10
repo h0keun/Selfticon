@@ -1,3 +1,5 @@
+# 코틀린 언어가 익숙치 않아서 잠시 보류
+
 # 소상공인을 위한 기프티콘 서비스
 
 스스로에게 주는 과제 : ViewBinding, DataBinding 사용, Glide 사용, recyclerview 사용,   ...  

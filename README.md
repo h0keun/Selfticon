@@ -3,6 +3,9 @@
 MainActivity - Fragment1, Fragment2 / SubActivity 구조로 되어있는상태인데  
 Fragment1에서 recyclerview를 구현하였다. recyclerview에 들어가는 item은   subActivity에서 작성하게되는데 subActivity에서 작성한 내용을 MainActivity에서  
 받아서 다시 Fragment1의 recyclerview로 보내는 작업을 못하고 있다.
+
+viewmodle과livedata황용방한 생각해보고
+지금까지 작성한 코드내용들 커밋해서 올리면 이전까지작생했던내용을 잃는거라 따로 푸시하지 않고 보류
 # 소상공인을 위한 기프티콘 서비스
 
 스스로에게 주는 과제 : ViewBinding, DataBinding 사용, Glide 사용, recyclerview 사용,   ...  

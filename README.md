@@ -1,5 +1,8 @@
 # 코틀린 언어가 익숙치 않아서 잠시 보류
-
+## 마주친 문제
+MainActivity - Fragment1, Fragment2 / SubActivity 구조로 되어있는상태인데  
+Fragment1에서 recyclerview를 구현하였다. recyclerview에 들어가는 item은   subActivity에서 작성하게되는데 subActivity에서 작성한 내용을 MainActivity에서  
+받아서 다시 Fragment1의 recyclerview로 보내는 작업을 못하고 있다.
 # 소상공인을 위한 기프티콘 서비스
 
 스스로에게 주는 과제 : ViewBinding, DataBinding 사용, Glide 사용, recyclerview 사용,   ...  

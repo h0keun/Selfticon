@@ -1,3 +1,12 @@
+# 코틀린 언어가 익숙치 않아서 잠시 보류
+## 마주친 문제
+MainActivity - Fragment1, Fragment2 / SubActivity 구조로 되어있는상태인데  
+Fragment1에서 recyclerview를 구현하였다. recyclerview에 들어가는 item은   subActivity에서 작성하게되는데 subActivity에서 작성한 내용을 MainActivity에서  
+받아서 다시 Fragment1의 recyclerview로 보내는 작업을 못하고 있다. 사실 굳이 subAcitivity가 필요한것은 아니라 이곳에서 처리할 로직도 많아서 프래그먼트단이아닌  
+엑티비티단으로 구성중(바코드 생성, 이미지업로드, 상품명, 가격, 위치 등 리사이클러뷰로 들어갈 정보입력해야하고 나중에 스캔했을때 탐지해야함)  
+
+
+viewmodle과livedata황용방한 생각해보고 recyclerview관련한 다른 많은 글들 살펴볼것,
 # 소상공인을 위한 기프티콘 서비스
 
 스스로에게 주는 과제 : ViewBinding, DataBinding 사용, Glide 사용, recyclerview 사용,   ...  
@@ -58,5 +67,5 @@ retrofit 안쓰는게 아쉽긴 하지만 그런대로 최대한 다른것들 �
 아키텍쳐 패턴 : MVC, MVP, MVVM 중 하나  
 JetPack 활용 : dataBinding, livedata, viewmodel 등 무엇이든.  
 Glide 활용  
-recyclerView 활용 등등등등등등등등등등등등
+recyclerView 활용 등
 

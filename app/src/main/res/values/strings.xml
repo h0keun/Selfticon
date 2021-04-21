@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MyGifticon</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="list">list 보여주는 프래그먼트</string>
+    <string name="list">사용가능한 기프티콘</string>
     <string name="scan">scan 하는 프래그먼트</string>
     <string name="make">gifticon 만드는 엑티비티</string>
 </resources>

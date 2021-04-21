@@ -1,80 +1,77 @@
 package com.com.mygifticon
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.ListFragment
 import com.com.mygifticon.databinding.ActivityMainBinding
+import com.com.mygifticon.scan.ScanFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class TestData(
-    private var data0: String? =null,
-    private var data1: String? = null,
-    private var data2: String? = null,
-    private var data3: String? = null )
-{
-    fun getData0(): String? { return data0 }
-    fun setData0(image: String) { this.data0 = data0 }
-    fun getData1(): String? { return data1 }
-    fun setData1(name: String) { this.data1 = data1 }
-    fun getData2(): String? { return data2 }
-    fun setData2(address: String) { this.data2 = data2 }
-    fun getData3(): String? { return data3 }
-    fun setData3(type: String) { this.data3 = data3 }
-}
 
 class MainActivity : AppCompatActivity() {
 
-    private val fragment_list by lazy {ListFragment()}
-    private val fragment_scan by lazy {ScanFragment()}
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(R.layout.activity_main)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        binding.fab.setOnClickListener {
-
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        fab.setOnClickListener{
+            val nextIntent = Intent(this, SubActivity::class.java)
+            startActivity(nextIntent)
         }
-        binding.bottomNavigationView.background = null
-        binding.bottomNavigationView.menu.getItem(1).isEnabled = false
+        val listFragment = ListFragment()
+        val scanFragment = ScanFragment()
 
-        binding.bottomNavigationView.run{
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
+        bottomNavigationView.background = null
+        bottomNavigationView.menu.getItem(1).isEnabled = false
+
+        bottomNavigationView.run{
             setOnNavigationItemSelectedListener {
                 when(it.itemId){
-                    R.id.list ->{
-                        changeFragment(fragment_list)
-                    }
-                    R.id.scan ->{
-                        changeFragment(fragment_scan)
-                    }
+                    R.id.list -> changeFragment(listFragment)
+                    R.id.scan -> changeFragment(scanFragment)
                 }
                 true
             }
             selectedItemId = R.id.list
         }
-        setContentView(binding.root)
     }
-    var dataList: ArrayList<TestData> = arrayListOf(
-        TestData("dd","업체명1", "상품정보1", "가격1"),
-        TestData("dd","업체명2", "상품정보2", "가격2"),
-        TestData("dd","업체명3", "상품정보3", "가격3"),
-        TestData("dd","업체명4", "상품정보4", "가격4"),
-            TestData("dd","업체명1", "상품정보1", "가격1"),
-            TestData("dd","업체명2", "상품정보2", "가격2"),
-            TestData("dd","업체명3", "상품정보3", "가격3"),
-            TestData("dd","업체명4", "상품정보4", "가격4"),
-            TestData("dd","업체명1", "상품정보1", "가격1"),
-            TestData("dd","업체명2", "상품정보2", "가격2"),
-            TestData("dd","업체명3", "상품정보3", "가격3"),
-            TestData("dd","업체명4", "상품정보4", "가격4"),
-            TestData("dd","업체명1", "상품정보1", "가격1"),
-            TestData("dd","업체명2", "상품정보2", "가격2"),
-            TestData("dd","업체명3", "상품정보3", "가격3"),
-            TestData("dd","업체명4", "상품정보4", "가격4"),
+/*
 
-        )
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 1234 && resultCode == RESULT_OK){
+            var data11 = data?.getStringExtra("where")
+            var data22 = data?.getStringExtra("name")
+            var data33 = data?.getStringExtra("price")
+        }
+    }
+
+    var dataList: ArrayList<TestData> = arrayListOf(
+            TestData("업체명1", "상품정보1", "가격1"),
+            TestData("업체명2", "상품정보2", "가격2"),
+            TestData("업체명3", "상품정보3", "가격3"),
+            TestData("업체명4", "상품정보4", "가격4")
+    )
+*/
+
     private fun changeFragment(fragment: Fragment){
-        supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()
-        intent.putExtra("DataList",dataList)
+        supportFragmentManager.beginTransaction()
+            .apply{
+                replace(R.id.frame, fragment)
+                commit()
+                //intent.putExtra("DataList",dataList)
+            }
     }
 }
+
 
 

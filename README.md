@@ -65,6 +65,8 @@ retrofit 안쓰는게 아쉽긴 하지만 그런대로 최대한 다른것들 �
 JetPack 활용 : dataBinding, livedata, viewmodel 등 무엇이든.  
 Glide 활용  
 recyclerView 활용 등  
-[UI](https://play.google.com/store/apps/details?id=com.zlgoon.dailycafe)
-[본](http://www.zlgoon.co.kr/)
+[UI](https://play.google.com/store/apps/details?id=com.zlgoon.dailycafe)  
+[본](http://www.zlgoon.co.kr/)  
+[UI](https://www.behance.net/gallery/85889397/NyamNyam-Foodie-Bucket-List-App)
+
 

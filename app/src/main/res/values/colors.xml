@@ -12,5 +12,11 @@
     <color name="transparent">#00000000</color>
     <color name="gray">#cccccc</color>
     <color name="gray2">#DDDDDD</color>
+    <color name="gray3">#C8C8C8</color>
     <color name="floting">#9CCC65</color>
+
+
+    <color name="makebutton">#EF5350</color>
+    <color name="makebuttonclicked">#BC403E</color>
+
 </resources>

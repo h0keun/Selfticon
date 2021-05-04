@@ -21,7 +21,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         articleAdapter = ArticleAdapter()
         articleAdapter.submitList(mutableListOf<ArticleModel>().apply {
             add(ArticleModel("0","카페라떼",1000000,"4800원",""))
-            add(ArticleModel("0","big 카페라떼",2000000,"5000원",""))
+            add(ArticleModel("0","마끼아또",2000000,"5000원",""))
 
         })
 

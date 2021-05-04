@@ -1,5 +1,6 @@
 package com.com.mygifticon.list
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -16,6 +17,7 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
 
     inner class ViewHolder(private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
 
+        @SuppressLint("SimpleDateFormat")
         fun bind(articleModel: ArticleModel){
             val format = SimpleDateFormat("MM월 dd일")
             val date = Date(articleModel.createdAt)
@@ -29,11 +31,6 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
                     .load(articleModel.imageUrl)
                     .into(binding.thumbnailImageView)
             }
-
-            //binding.root.setOnClickListener {
-              //  onItemClicked(articleModel)
-            //}
-
         }
     }
 

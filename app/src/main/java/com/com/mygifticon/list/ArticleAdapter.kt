@@ -17,13 +17,18 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
 
     inner class ViewHolder(private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
 
-        @SuppressLint("SimpleDateFormat")
+//        val title = binding.setTitle.editText?.text.toString()
+//        val explain = binding.setExplain.editText?.text.toString()
+//        val price = binding.setPrice.editText?.text.toString()
+//        val sellerId = binding.setSeller.editText?.text.toString()
+
         fun bind(articleModel: ArticleModel){
-            val format = SimpleDateFormat("MM월 dd일")
-            val date = Date(articleModel.createdAt)
+            //val format = SimpleDateFormat("MM월 dd일")
+            //val date = Date(articleModel.createdAt)
 
             binding.titleTextView.text = articleModel.title
-            binding.dateTextView.text = format.format(date).toString()
+            //binding.dateTextView.text = format.format(date).toString()
+            binding.explainTextView.text = articleModel.explain
             binding.priceTextView.text = articleModel.price
 
             if (articleModel.imageUrl.isNotEmpty()) {
@@ -45,7 +50,7 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<ArticleModel>() {
             override fun areItemsTheSame(oldItem: ArticleModel, newItem: ArticleModel): Boolean {
-                return oldItem.createdAt == newItem.createdAt
+                return oldItem.title == newItem.title
             }
 
             override fun areContentsTheSame(oldItem: ArticleModel, newItem: ArticleModel): Boolean {

@@ -10,8 +10,8 @@
     <string name="title">상품명</string>
     <string name="price">가격</string>
 
-    <string name="makebutton">완료</string>
-    <string name="makeImage">사진선택 및 큐알코드 생성</string>
+    <string name="makebutton">기프티콘 생성하기</string>
+    <string name="makeImage">사진선택</string>
     <string name="makeQR">큐알코드 생성</string>
 
 </resources>

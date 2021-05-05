@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_baseline_add_24"
-        android:backgroundTint="#9C9C9C"
+        android:backgroundTint="@color/maincolor"
         app:tint="@color/white"
         app:borderWidth="0dp"
         app:layout_anchor="@id/bottomAppBar"/>

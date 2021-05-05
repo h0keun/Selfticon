@@ -18,10 +18,11 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         val fragmentListBinding = FragmentListBinding.bind(view)
         binding = fragmentListBinding
 
+        //val model = ArticleModel(title, explain, price, sellerId, "")
         articleAdapter = ArticleAdapter()
         articleAdapter.submitList(mutableListOf<ArticleModel>().apply {
-            add(ArticleModel("0","카페라떼",1000000,"4800원",""))
-            add(ArticleModel("0","마끼아또",2000000,"5000원",""))
+            add(ArticleModel("아메리카노","씁슬한게 맛이 기가멕힘","4000원","",""))
+            add(ArticleModel("마끼아또","달달구리 한게 맛이 기똥참","5000원","",""))
 
         })
 

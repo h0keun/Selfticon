@@ -4,7 +4,7 @@
         <item name="colorPrimary">#EF5350</item>
         <item name="colorPrimaryVariant">#EC407A</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="android:statusBarColor" tools:targetApi="l">@color/transparent</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/lightgray</item>
 
         <item name="android:windowLightStatusBar">true</item>
     </style>

@@ -7,4 +7,7 @@ data class ArticleModel(
     val price: String,
     val sellerId: String,
     val imageUrl: String
-)
+) {
+    constructor(): this("","","","","")
+}
+

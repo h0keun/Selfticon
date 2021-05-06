@@ -4,13 +4,44 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.com.mygifticon.DBKey.Companion.DB_ARTICLES
 import com.com.mygifticon.R
 import com.com.mygifticon.databinding.FragmentListBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class ListFragment : Fragment(R.layout.fragment_list) {
 
-    private var binding: FragmentListBinding? = null
+    private lateinit var articleDB: DatabaseReference
     private lateinit var articleAdapter: ArticleAdapter
+
+    private val articleList = mutableListOf<ArticleModel>()
+    private val listener = object: ChildEventListener{
+        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+
+            val articleModel = snapshot.getValue(ArticleModel::class.java)
+            articleModel ?: return
+
+            articleList.add(articleModel)
+            articleAdapter.submitList(articleList)
+        }
+
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+        override fun onChildRemoved(snapshot: DataSnapshot) {}
+        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+        override fun onCancelled(error: DatabaseError) {}
+    }
+
+    private var binding: FragmentListBinding? = null
+    private val auth: FirebaseAuth by lazy {
+        Firebase.auth
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -18,15 +49,25 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         val fragmentListBinding = FragmentListBinding.bind(view)
         binding = fragmentListBinding
 
-        //val model = ArticleModel(title, explain, price, sellerId, "")
+        articleList.clear() // 다른 프래그먼트 들어갓다 다시 오면 리스트가 중복생성되어서 여기서 초기화 시킴
+        articleDB = Firebase.database.reference.child(DB_ARTICLES)
         articleAdapter = ArticleAdapter()
-        articleAdapter.submitList(mutableListOf<ArticleModel>().apply {
-            add(ArticleModel("아메리카노","씁슬한게 맛이 기가멕힘","4000원","",""))
-            add(ArticleModel("마끼아또","달달구리 한게 맛이 기똥참","5000원","",""))
-
-        })
 
         fragmentListBinding.articleRecyclerView.layoutManager = LinearLayoutManager(context)
         fragmentListBinding.articleRecyclerView.adapter = articleAdapter
+
+        articleDB.addChildEventListener(listener)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        articleAdapter.notifyDataSetChanged()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        articleDB.removeEventListener(listener)
     }
 }

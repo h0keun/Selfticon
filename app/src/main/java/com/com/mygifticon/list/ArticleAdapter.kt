@@ -17,11 +17,6 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
 
     inner class ViewHolder(private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
 
-//        val title = binding.setTitle.editText?.text.toString()
-//        val explain = binding.setExplain.editText?.text.toString()
-//        val price = binding.setPrice.editText?.text.toString()
-//        val sellerId = binding.setSeller.editText?.text.toString()
-
         fun bind(articleModel: ArticleModel){
             //val format = SimpleDateFormat("MM월 dd일")
             //val date = Date(articleModel.createdAt)

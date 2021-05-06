@@ -2,6 +2,7 @@ package com.com.mygifticon.make
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.AsyncQueryHandler
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -10,18 +11,39 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.com.mygifticon.DBKey.Companion.DB_ARTICLES
 import com.com.mygifticon.R
 import com.com.mygifticon.databinding.ActivityMakeBinding
 import com.com.mygifticon.list.ArticleModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 
 class MakeActivity : AppCompatActivity() {
 
     private var selectedUri: Uri? = null
 
+    private val auth: FirebaseAuth by lazy {
+        Firebase.auth
+    }
+
+    private val storage: FirebaseStorage by lazy {
+        Firebase.storage
+    }
+
+    private val articleDB: DatabaseReference by lazy {
+        Firebase.database.reference.child(DB_ARTICLES)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMakeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         binding.setImageButton.setOnClickListener {
             when {
@@ -36,8 +58,7 @@ class MakeActivity : AppCompatActivity() {
                 }
                 else -> {
                     requestPermissions(
-                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                        1010
+                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1010
                     )
                 }
             }
@@ -50,10 +71,61 @@ class MakeActivity : AppCompatActivity() {
             val price = binding.setPrice.editText?.text.toString()
             val sellerId = binding.setSeller.editText?.text.toString()
 
-            val model = ArticleModel(title, explain, price, sellerId, "")
+            if (selectedUri != null) {
+                val imageName =
+                    binding.setTitle.editText?.text.toString() + binding.setPrice.editText?.text.toString() + binding.setSeller.editText?.text.toString()
+                val photoUri = selectedUri ?: return@setOnClickListener
+                uploadPhoto(imageName, photoUri,
+                    successHandler = { uri ->
+                        uploadArticle(title, explain, price, sellerId, uri)
+                    },
+                    errorHandler = {
+                        Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            } else {
+                uploadArticle(title, explain, price, sellerId, "")
+            }
 
 
         }
+    }
+
+    private fun uploadPhoto(
+        imageName: String,
+        uri: Uri,
+        successHandler: (String) -> Unit,
+        errorHandler: () -> Unit
+    ) {
+        val fileName = "${imageName}.png"
+        storage.reference.child("article/photo").child(fileName)
+            .putFile(uri)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    storage.reference.child("article/photo").child(fileName)
+                        .downloadUrl
+                        .addOnSuccessListener { uri ->
+                            successHandler(uri.toString())
+                        }.addOnFailureListener {
+                            errorHandler()
+                        }
+                } else {
+                    errorHandler()
+                }
+            }
+    }
+
+    private fun uploadArticle(
+        title: String,
+        explain: String,
+        price: String,
+        sellerId: String,
+        imageUrl: String
+    ) {
+        val model = ArticleModel(title, explain, price, sellerId, imageUrl)
+        articleDB.push().setValue(model)
+
+        finish()
     }
 
     override fun onRequestPermissionsResult(

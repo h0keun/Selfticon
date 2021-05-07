@@ -22,6 +22,7 @@
         </activity>
 
         <activity android:name=".make.MakeActivity"/>
+        <activity android:name=".GifticonActivity"/>
 
     </application>
 

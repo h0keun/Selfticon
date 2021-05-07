@@ -1,10 +1,13 @@
 package com.com.mygifticon.list
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.com.mygifticon.DBKey.Companion.DB_ARTICLES
+import com.com.mygifticon.GifticonActivity
+import com.com.mygifticon.GifticonModel
 import com.com.mygifticon.R
 import com.com.mygifticon.databinding.FragmentListBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +25,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     private lateinit var articleAdapter: ArticleAdapter
 
     private val articleList = mutableListOf<ArticleModel>()
-    private val listener = object: ChildEventListener{
+    private val listener = object : ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 
             val articleModel = snapshot.getValue(ArticleModel::class.java)
@@ -51,7 +54,20 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
         articleList.clear() // 다른 프래그먼트 들어갓다 다시 오면 리스트가 중복생성되어서 여기서 초기화 시킴
         articleDB = Firebase.database.reference.child(DB_ARTICLES)
-        articleAdapter = ArticleAdapter()
+
+        articleAdapter = ArticleAdapter(onItemClicked = { articleModel ->
+            val Gifticon = GifticonModel(
+                gift_title = articleModel.title,
+                gift_explain = articleModel.explain,
+                gift_price = articleModel.price,
+                gift_sellerId = articleModel.sellerId,
+                gift_imageUrl = articleModel.imageUrl
+            )
+
+            val intent = Intent(requireContext(), GifticonActivity::class.java)
+            intent.putExtra("gifticonModel", Gifticon)
+            startActivity(intent)
+        })
 
         fragmentListBinding.articleRecyclerView.layoutManager = LinearLayoutManager(context)
         fragmentListBinding.articleRecyclerView.adapter = articleAdapter

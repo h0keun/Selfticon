@@ -8,9 +8,13 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.com.mygifticon.DBKey.Companion.DB_ARTICLES
 import com.com.mygifticon.R
 import com.com.mygifticon.databinding.ActivityMakeBinding
@@ -71,6 +75,8 @@ class MakeActivity : AppCompatActivity() {
             val price = binding.setPrice.editText?.text.toString()
             val sellerId = binding.setSeller.editText?.text.toString()
 
+            showProgress()
+
             if (selectedUri != null) {
                 val imageName =
                     binding.setTitle.editText?.text.toString() + binding.setPrice.editText?.text.toString() + binding.setSeller.editText?.text.toString()
@@ -81,6 +87,7 @@ class MakeActivity : AppCompatActivity() {
                     },
                     errorHandler = {
                         Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        hideProgress()
                     }
                 )
             } else {
@@ -125,6 +132,7 @@ class MakeActivity : AppCompatActivity() {
         val model = ArticleModel(title, explain, price, sellerId, imageUrl)
         articleDB.push().setValue(model)
 
+        hideProgress()
         finish()
     }
 
@@ -149,6 +157,17 @@ class MakeActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         startActivityForResult(intent, 2020)
+    }
+
+    private fun showProgress() {
+        findViewById<LinearLayout>(R.id.mainContentLayout).isVisible = false
+        findViewById<ConstraintLayout>(R.id.progressLayout).isVisible = true
+
+    }
+
+    private fun hideProgress(){
+        findViewById<LinearLayout>(R.id.mainContentLayout).isVisible = true
+        findViewById<ConstraintLayout>(R.id.progressLayout).isVisible = false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

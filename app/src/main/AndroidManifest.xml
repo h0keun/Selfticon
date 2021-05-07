@@ -22,7 +22,8 @@
         </activity>
 
         <activity android:name=".make.MakeActivity"/>
-        <activity android:name=".GifticonActivity"/>
+        <activity android:name=".GifticonActivity"
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"/>
 
     </application>
 

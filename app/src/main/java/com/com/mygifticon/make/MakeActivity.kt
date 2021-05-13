@@ -2,14 +2,12 @@ package com.com.mygifticon.make
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.AsyncQueryHandler
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -68,7 +66,6 @@ class MakeActivity : AppCompatActivity() {
             }
         }
 
-
         binding.makeButton.setOnClickListener {
             val title = binding.setTitle.editText?.text.toString()
             val explain = binding.setExplain.editText?.text.toString()
@@ -81,6 +78,7 @@ class MakeActivity : AppCompatActivity() {
                 val imageName =
                     binding.setTitle.editText?.text.toString() + binding.setPrice.editText?.text.toString() + binding.setSeller.editText?.text.toString()
                 val photoUri = selectedUri ?: return@setOnClickListener
+
                 uploadPhoto(imageName, photoUri,
                     successHandler = { uri ->
                         uploadArticle(title, explain, price, sellerId, uri)

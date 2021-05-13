@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         val listFragment = ListFragment()
         val scanFragment = ScanFragment()
-
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
         bottomNavigationView.background = null

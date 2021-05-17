@@ -1,30 +1,40 @@
-# 기프티콘 서비스
+### 진행상황
+<img src="https://user-images.githubusercontent.com/63087903/118218738-06227800-b4b3-11eb-8307-d4cccf51fff0.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218744-091d6880-b4b3-11eb-9163-93e64b9b7459.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218747-0ae72c00-b4b3-11eb-8380-bb8e60cd5e66.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218752-0d498600-b4b3-11eb-81c9-7a21d57de3f0.jpg" width="200" height="430">
 
-스크린샷에서 막힌 상태 이전에 사용했던방식이 deprecated.. 우선사항이 아니니까 큐알코드생성부터  
-큐알코드 생성엔 문제가 없으나 firebase에 업로드할때 이미지는 Uri기반으로 올라가서 그냥 내가 임의적으로 set한 큐알코드이미지는 uri를 따올 방법이 없음.  
+<img src="https://user-images.githubusercontent.com/63087903/118218760-0e7ab300-b4b3-11eb-968f-55efe429e99c.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118444049-9ff25b00-b727-11eb-9c8e-03c81a551609.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218765-1175a380-b4b3-11eb-912a-79826991d6a0.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118445580-95d15c00-b729-11eb-9771-85d35f4bc841.jpg" width="200" height="430">
+
+<img src="https://user-images.githubusercontent.com/63087903/118445583-97028900-b729-11eb-8108-77535e2adc27.jpg" width="200" height="430">
 
 
-### error
-1. RoomDB를 사용하는데 한액티비티에서 데이터를 roomdb에 저장하고 다른 액티비티의 프래그먼트(리사이클러뷰)위에 데이터를 불러와야한다.
-2. 이거아마 MVVM까지 가야하는 영역인듯? 
-3. 아닌방법도있을듯함 그방법도 확인하고 넘어가자  
-  >> 지금은 firebase realtime database & storage 로 구성중인데 혹시나 앱 출시 까지 가게되면 MVVM 학습하고  
-    Room + liveData + Viewmodel + recyclerview로 바꿔서 내부db이용해서 하는것으로.
-    제공하는 기능이 그냥 아는사이끼리 공유하는거면 룸이 훨씬 좋지만
-    사용자끼리 상호작용하는 단위로 가면 서버통해서 공유해야함
-    
-    
+
+
+
+
++ Material Design, Glide
++ Firebase : Realtime Database와 Storage 를 이용해 아이템을 추가하고 리사이클러뷰에 받아오는중
++ zxing Library : QR코드 생성과 스캔을 위한 라이브러리 사용중
+
 ### 남은거
-리사이클러뷰 각 아이템 클릭하면 기프티콘 페이지 나오는데 여기서 수정이나 삭제버튼 누르면 firebase에서 수정 삭제 되도록 하고,  
-공유기능추가해서 사람들에게 공유가 가능하도록  
-근데 공유해야하는것은 이미지 파일이어야 하니까 공유버튼누를 때 스크린샷? 해서 기프티콘화면 저장하고 (백그라운드에서 처리) 그이미지공유 가능토록 안대면 다른방법  
-zxing라이브러리통해서 큐알코드 생성해서 기존 데이터랑 함께 firebase에 담고, 큐알코드 스캔시 해당 기프티콘창이 뜨고  
-그 기프티콘을 사용할것인지 클릭하면 firebase에서 자동으로 삭제되도록 등등  
-기프티콘 페이지 그럴듯하게 꾸미기 
++ RecyclerView Clickevent : 삭제, 수정, 공유 기능 필요  
+  1. Firebase에 업로드되어있는 내용을 삭제 및 수정해야하고
+  2. 공유시 기프티콘 이미지가 보이는 view만 따서 스크린샷 공유를 해야함
++ zxing Library : RecyclerView와 연동이 필요  
+  1. QR 생성시에 아이템을 구분짓기위해 상품명, 상품설명, 교환처의 정보를 QR에 담았는데 아이템 클릭할 때마다 QR코드가 바뀌는거보면 정보 제대로 입력 안된거같음
+    - 해결 : 기존엔 QR에 들어갈 정보를 Model에서 가져온 텍스트 값을 엑티비티의 텍스트뷰에 뿌린 후 그 텍스트뷰를 읽어서 저장했는데
+             이과정에 문제가 있어서 아이템들어갈 때마다 큐알코드가 바꼇었는데 Model에서 가져온 정보 그대로를 큐알에 저장했더니 오류가 나지 않음,,
+             근데, QR코드 자체가 숫자 최대 7089 자, 영문자와 숫자[코드표가 따로 존재] 최대 4296 자, 8비트 바이트 최대 2953 바이트, 한자 1817 자를 담을 수 있다...  
+             고 하는데 그래서 그런지 토스트 메시지로 큐알 정보를 확인하면 한글 부분은 ???로 뜨고 숫자와 영어는 제대로 출력된다.. 한국어 정보를 담는게 불가능한건가?? 
+             삽질하다가 EncodeHintType을 지정할 수 있는 다른 메소드가 잇어서 적용하고 해결됨!@@!!@
+  2. RoomDB 필연적으로 사용해야할듯? 아이템클릭시 QR생성이아니라 처음에 MakeActivity에서 생성할때 모든 정보들을 Room에 잘 담고 그 정보들로 QR정보 
+  3. QR 스캔시에 정상적으로 스캔이 완료되면 해당 아이템을 찾아와서 사용할것인지의 여부를 보여주는 기능이 필요함
++ Firebase가 아니라 Room - ViewModel - LiveData - recyclerView (MVVM) 으로 구현할 필요가 있어보임 
+
+별거 없어보이는데 뭔가 하다가 많이 막힐거같음
 
 ### 기획
 시중에 돌아다니는 기프티콘 쿠폰들을 보면 전부 프랜차이즈사의 상품들만 기프티콘이 존재한다.  
-소상공인들도 쉽게 기프티콘을 제작하여 사람들이 사용할 수 있다면?
+소상공인들도 쉽게 기프티콘을 제작하여 사람들이 사용할 수 있다면? 아니면 일반 사람들이 재미있게 기프티콘을 주고받는다묜?
+지금 내 수준에서 구현하고자하면 전자의 방식은 Firebase를 최대한 사용하는거고, 후자의 경우는 RoomDB 최대한 
 
 
 유형 : 카페, 베이커리, 패스트푸드 (타겟층 기프티콘 많이쓰는 젊은층) why? 기프티콘 서비스는 프랜차이즈 한정임.  
@@ -50,7 +60,7 @@ zxing라이브러리통해서 큐알코드 생성해서 기존 데이터랑 함�
   7. 만약 리사이클러뷰에 존재하지 않는 기프티콘을 스캔하였을 경우 토스트 메시지로 이미 사용하였거나 존재하지 않는 기프티콘 입니다 띄우기
  
 
-+ 위의 내용 완성 이후에 추가적으로 도전할 기능 = 상점(소상공인서비스)
++ 위의 내용 완성 이후에 추가적으로 도전할 기능 = Firebase로 계속 갈 때 : 상점(소상공인서비스) 
   : 우선 위내용들은 소상공인이 아닌 개인단위에서 재밋게 사용이 가능한 수준, 소상공인분들을 위해선 조금더 섬세한 기능들을 구현해야함
   1. 상점들어가기 버튼을 기존화면 우측상단에 놓고 누르면 로그인 액티비티1 이나오도록(구글로그인)
   2. 로그인이 완료되면 상점만들기 버튼과 둘러보기 버튼이 존재하는 액티비티2 띄우기
@@ -85,9 +95,6 @@ retrofit 안쓰는게 아쉽긴 하지만 그런대로 최대한 다른것들 �
 아키텍쳐 패턴 : MVC, MVP, MVVM 중 하나  
 JetPack 활용 : dataBinding, livedata, viewmodel 등 무엇이든.  
 Glide 활용  
-recyclerView 활용 등  
-[UI](https://play.google.com/store/apps/details?id=com.zlgoon.dailycafe)  
-[본](http://www.zlgoon.co.kr/)  
-[UI](https://www.behance.net/gallery/85889397/NyamNyam-Foodie-Bucket-List-App)
+recyclerView 활용 등
 
 

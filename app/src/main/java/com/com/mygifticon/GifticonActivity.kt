@@ -3,22 +3,34 @@ package com.com.mygifticon
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
-import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
+import com.com.mygifticon.DBKey.Companion.DB_ARTICLES
 import com.com.mygifticon.databinding.ActivityGifticonBinding
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import kotlin.collections.HashMap
 
 class GifticonActivity : AppCompatActivity() {
+
+    private lateinit var database: DatabaseReference
+
+    private val storage: FirebaseStorage by lazy {
+        Firebase.storage
+    }
+
+    private val articleDB: DatabaseReference by lazy {
+        Firebase.database.reference.child(DBKey.DB_ARTICLES)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +46,7 @@ class GifticonActivity : AppCompatActivity() {
         binding.giftSellerId.text = gifticonData.gift_sellerId
 
         val img = binding.giftQR
-        val qrId = "상품명 : ${binding.giftTitle}\n상품설명 : ${binding.giftExplain}"
+        val qrId = "상품명 : ${gifticonData.gift_title}\n상품설명 : ${gifticonData.gift_explain}"
         createQRcode(img, qrId)
 
 
@@ -45,7 +57,20 @@ class GifticonActivity : AppCompatActivity() {
 
 
         binding.deleteButton.setOnClickListener {
-            deleteButtonClicked()
+            val imageName =
+                "${gifticonData.gift_title}${gifticonData.gift_price}${gifticonData.gift_sellerId}"
+            storage.reference.child("article/photo").child("${imageName}.png").delete()
+                .addOnSuccessListener {
+                    //deleteDB(imageName)
+                    articleDB.child(DB_ARTICLES).child(imageName).removeValue()
+                    finish()
+                    //articleDB.push().setValue(null)
+
+                }.addOnFailureListener {
+
+                }
+            //deleteButtonClicked(imageName)
+
         }
 
         binding.editButton.setOnClickListener {
@@ -57,14 +82,23 @@ class GifticonActivity : AppCompatActivity() {
             binding.captureLayout
             shareButtonClicked()
         }
-    }
 
-    private fun createQRcode(img: ImageView, text: String) {
+        //database = Firebase.database.reference
+    }
+//    private fun deleteDB(imageName: String) {
+//
+//    }
+
+    private fun createQRcode(img: ImageView, qrId: String) {
         val multiFormatWriter = MultiFormatWriter()
 
+
         try {
+            val hints = HashMap<EncodeHintType, Any>()
+            hints[EncodeHintType.CHARACTER_SET] = "utf-8"
+
             val bitMatrix: BitMatrix =
-                multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, 200, 200)
+                multiFormatWriter.encode(qrId, BarcodeFormat.QR_CODE, 200, 200, hints)
             val barcodeEncoder: BarcodeEncoder = BarcodeEncoder()
             val bitmap: Bitmap = barcodeEncoder.createBitmap(bitMatrix)
             img.setImageBitmap(bitmap)
@@ -73,9 +107,15 @@ class GifticonActivity : AppCompatActivity() {
         }
     }
 
-    private fun deleteButtonClicked() {
+//    private fun deleteButtonClicked(imageName: String) {
+//        storage.reference.child("article/photo").child(imageName).delete()
+//            .addOnSuccessListener {
+//                articleDB.push().setValue(null)
+//            }.addOnFailureListener {
+//
+//            }
+//    }
 
-    }
 
     private fun editButtonClicked() {
 

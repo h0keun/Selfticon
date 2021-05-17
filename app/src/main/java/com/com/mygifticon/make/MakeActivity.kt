@@ -127,8 +127,9 @@ class MakeActivity : AppCompatActivity() {
         sellerId: String,
         imageUrl: String
     ) {
+
         val model = ArticleModel(title, explain, price, sellerId, imageUrl)
-        articleDB.push().setValue(model)
+        articleDB.child("${title}${price}${sellerId}").setValue(model)
 
         hideProgress()
         finish()

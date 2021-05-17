@@ -2,8 +2,8 @@ package com.com.mygifticon.list
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.com.mygifticon.DBKey.Companion.DB_ARTICLES
 import com.com.mygifticon.GifticonActivity
@@ -21,8 +21,11 @@ import com.google.firebase.ktx.Firebase
 
 class ListFragment : Fragment(R.layout.fragment_list) {
 
+    //private val articleListInFirebase = mutableListOf<String>()
+
     private lateinit var articleDB: DatabaseReference
     private lateinit var articleAdapter: ArticleAdapter
+    private lateinit var articleModelName : ArticleModel
 
     private val articleList = mutableListOf<ArticleModel>()
     private val listener = object : ChildEventListener {
@@ -32,19 +35,28 @@ class ListFragment : Fragment(R.layout.fragment_list) {
             articleModel ?: return
 
             articleList.add(articleModel)
+            //snapshot.key?.let { articleListInFirebase.add(it) }
             articleAdapter.submitList(articleList)
         }
 
-        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
-        override fun onChildRemoved(snapshot: DataSnapshot) {}
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            val imageName = "${articleModelName.title}${articleModelName.price}${articleModelName.sellerId}"
+            articleDB.child(DB_ARTICLES).child(imageName).removeValue()
+            articleAdapter.notifyDataSetChanged()
+        }
+        override fun onChildRemoved(snapshot: DataSnapshot) {
+            val imageName = "${articleModelName.title}${articleModelName.price}${articleModelName.sellerId}"
+            articleDB.child(DB_ARTICLES).child(imageName).removeValue()
+            articleAdapter.notifyDataSetChanged()
+        }
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
         override fun onCancelled(error: DatabaseError) {}
     }
 
     private var binding: FragmentListBinding? = null
-    private val auth: FirebaseAuth by lazy {
-        Firebase.auth
-    }
+//    private val auth: FirebaseAuth by lazy {
+//        Firebase.auth
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -19,7 +19,6 @@ class ArticleAdapter(val onItemClicked: (ArticleModel) -> Unit): ListAdapter<Art
             binding.explainTextView.text = articleModel.explain
             binding.priceTextView.text = articleModel.price
 
-            //val sellerId = articleModel.sellerId
 
             if (articleModel.imageUrl.isNotEmpty()) {
                 Glide.with(binding.thumbnailImageView)

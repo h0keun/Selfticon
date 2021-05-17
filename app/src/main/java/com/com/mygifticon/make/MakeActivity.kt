@@ -29,10 +29,6 @@ class MakeActivity : AppCompatActivity() {
 
     private var selectedUri: Uri? = null
 
-    private val auth: FirebaseAuth by lazy {
-        Firebase.auth
-    }
-
     private val storage: FirebaseStorage by lazy {
         Firebase.storage
     }
@@ -91,8 +87,6 @@ class MakeActivity : AppCompatActivity() {
             } else {
                 uploadArticle(title, explain, price, sellerId, "")
             }
-
-
         }
     }
 
@@ -127,7 +121,6 @@ class MakeActivity : AppCompatActivity() {
         sellerId: String,
         imageUrl: String
     ) {
-
         val model = ArticleModel(title, explain, price, sellerId, imageUrl)
         articleDB.child("${title}${price}${sellerId}").setValue(model)
 
@@ -164,7 +157,7 @@ class MakeActivity : AppCompatActivity() {
 
     }
 
-    private fun hideProgress(){
+    private fun hideProgress() {
         findViewById<LinearLayout>(R.id.mainContentLayout).isVisible = true
         findViewById<ConstraintLayout>(R.id.progressLayout).isVisible = false
     }

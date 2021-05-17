@@ -157,16 +157,8 @@
             android:layout_height="45dp"
             android:clickable="true"
             android:focusable="true"
+            android:layout_marginRight="45dp"
             android:src="@drawable/ic_baseline_delete_24" />
-
-        <ImageView
-            android:id="@+id/editButton"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="40dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_baseline_edit_24" />
 
         <ImageView
             android:id="@+id/shareButton"

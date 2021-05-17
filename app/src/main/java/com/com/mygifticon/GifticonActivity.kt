@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.com.mygifticon.DBKey.Companion.DB_ARTICLES
 import com.com.mygifticon.databinding.ActivityGifticonBinding
+import com.com.mygifticon.make.MakeActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -22,8 +23,6 @@ import kotlin.collections.HashMap
 
 class GifticonActivity : AppCompatActivity() {
 
-    private lateinit var database: DatabaseReference
-
     private val storage: FirebaseStorage by lazy {
         Firebase.storage
     }
@@ -37,7 +36,6 @@ class GifticonActivity : AppCompatActivity() {
         val binding = ActivityGifticonBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val gifticonData = intent.getSerializableExtra("gifticonModel") as GifticonModel
 
         binding.giftTitle.text = gifticonData.gift_title
@@ -49,49 +47,33 @@ class GifticonActivity : AppCompatActivity() {
         val qrId = "상품명 : ${gifticonData.gift_title}\n상품설명 : ${gifticonData.gift_explain}"
         createQRcode(img, qrId)
 
-
         Glide
             .with(binding.giftImageUrl.context)
             .load(gifticonData.gift_imageUrl)
             .into(binding.giftImageUrl)
-
 
         binding.deleteButton.setOnClickListener {
             val imageName =
                 "${gifticonData.gift_title}${gifticonData.gift_price}${gifticonData.gift_sellerId}"
             storage.reference.child("article/photo").child("${imageName}.png").delete()
                 .addOnSuccessListener {
-                    //deleteDB(imageName)
-                    articleDB.child(DB_ARTICLES).child(imageName).removeValue()
-                    finish()
-                    //articleDB.push().setValue(null)
-
+                    articleDB.child(imageName).removeValue()
+                    val nextIntent = Intent(this, MainActivity::class.java)
+                    nextIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    startActivity(nextIntent)
                 }.addOnFailureListener {
 
                 }
-            //deleteButtonClicked(imageName)
-
         }
-
-        binding.editButton.setOnClickListener {
-            editButtonClicked()
-        }
-
 
         binding.shareButton.setOnClickListener {
             binding.captureLayout
             shareButtonClicked()
         }
-
-        //database = Firebase.database.reference
     }
-//    private fun deleteDB(imageName: String) {
-//
-//    }
 
     private fun createQRcode(img: ImageView, qrId: String) {
         val multiFormatWriter = MultiFormatWriter()
-
 
         try {
             val hints = HashMap<EncodeHintType, Any>()
@@ -103,22 +85,7 @@ class GifticonActivity : AppCompatActivity() {
             val bitmap: Bitmap = barcodeEncoder.createBitmap(bitMatrix)
             img.setImageBitmap(bitmap)
 
-        } catch (e: Exception) {
-        }
-    }
-
-//    private fun deleteButtonClicked(imageName: String) {
-//        storage.reference.child("article/photo").child(imageName).delete()
-//            .addOnSuccessListener {
-//                articleDB.push().setValue(null)
-//            }.addOnFailureListener {
-//
-//            }
-//    }
-
-
-    private fun editButtonClicked() {
-
+        } catch (e: Exception) { }
     }
 
     private fun shareButtonClicked() {
@@ -133,7 +100,5 @@ class GifticonActivity : AppCompatActivity() {
                 type = "text/plain"
             }
         startActivity(Intent.createChooser(intent, null))
-
     }
-
 }

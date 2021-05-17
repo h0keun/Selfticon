@@ -10,8 +10,6 @@ import com.com.mygifticon.GifticonActivity
 import com.com.mygifticon.GifticonModel
 import com.com.mygifticon.R
 import com.com.mygifticon.databinding.FragmentListBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,11 +19,8 @@ import com.google.firebase.ktx.Firebase
 
 class ListFragment : Fragment(R.layout.fragment_list) {
 
-    //private val articleListInFirebase = mutableListOf<String>()
-
     private lateinit var articleDB: DatabaseReference
     private lateinit var articleAdapter: ArticleAdapter
-    private lateinit var articleModelName : ArticleModel
 
     private val articleList = mutableListOf<ArticleModel>()
     private val listener = object : ChildEventListener {
@@ -35,28 +30,22 @@ class ListFragment : Fragment(R.layout.fragment_list) {
             articleModel ?: return
 
             articleList.add(articleModel)
-            //snapshot.key?.let { articleListInFirebase.add(it) }
             articleAdapter.submitList(articleList)
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-            val imageName = "${articleModelName.title}${articleModelName.price}${articleModelName.sellerId}"
-            articleDB.child(DB_ARTICLES).child(imageName).removeValue()
             articleAdapter.notifyDataSetChanged()
         }
+
         override fun onChildRemoved(snapshot: DataSnapshot) {
-            val imageName = "${articleModelName.title}${articleModelName.price}${articleModelName.sellerId}"
-            articleDB.child(DB_ARTICLES).child(imageName).removeValue()
             articleAdapter.notifyDataSetChanged()
         }
+
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
         override fun onCancelled(error: DatabaseError) {}
     }
 
     private var binding: FragmentListBinding? = null
-//    private val auth: FirebaseAuth by lazy {
-//        Firebase.auth
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -95,7 +84,6 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         articleDB.removeEventListener(listener)
     }
 }

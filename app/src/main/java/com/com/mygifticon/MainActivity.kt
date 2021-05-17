@@ -41,9 +41,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        //selectedItemId = R.id.list
     }
-
 
     private fun changeFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()

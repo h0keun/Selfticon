@@ -1,7 +1,7 @@
 ### 진행상황
 <img src="https://user-images.githubusercontent.com/63087903/118218738-06227800-b4b3-11eb-8307-d4cccf51fff0.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218744-091d6880-b4b3-11eb-9163-93e64b9b7459.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218747-0ae72c00-b4b3-11eb-8380-bb8e60cd5e66.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218752-0d498600-b4b3-11eb-81c9-7a21d57de3f0.jpg" width="200" height="430">
 
-<img src="https://user-images.githubusercontent.com/63087903/118218760-0e7ab300-b4b3-11eb-968f-55efe429e99c.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118427467-36af1f80-b708-11eb-98ea-87b0da11fce2.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218765-1175a380-b4b3-11eb-912a-79826991d6a0.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218768-12a6d080-b4b3-11eb-9a03-d85724ade50c.jpg" width="200" height="430">
+<img src="https://user-images.githubusercontent.com/63087903/118218760-0e7ab300-b4b3-11eb-968f-55efe429e99c.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118444049-9ff25b00-b727-11eb-9c8e-03c81a551609.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218765-1175a380-b4b3-11eb-912a-79826991d6a0.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218768-12a6d080-b4b3-11eb-9a03-d85724ade50c.jpg" width="200" height="430">
 
 + Material Design, Glide
 + Firebase : Realtime Database와 Storage 를 이용해 아이템을 추가하고 리사이클러뷰에 받아오는중
@@ -17,7 +17,7 @@
              이과정에 문제가 있어서 아이템들어갈 때마다 큐알코드가 바꼇었는데 Model에서 가져온 정보 그대로를 큐알에 저장했더니 오류가 나지 않음,,
              근데, QR코드 자체가 숫자 최대 7089 자, 영문자와 숫자[코드표가 따로 존재] 최대 4296 자, 8비트 바이트 최대 2953 바이트, 한자 1817 자를 담을 수 있다...  
              고 하는데 그래서 그런지 토스트 메시지로 큐알 정보를 확인하면 한글 부분은 ???로 뜨고 숫자와 영어는 제대로 출력된다.. 한국어 정보를 담는게 불가능한건가?? 
-             EncodeHintType을 지정할 수 있는 다른 메소드가 잇어서 적용해보았지만 
+             삽질하다가 EncodeHintType을 지정할 수 있는 다른 메소드가 잇어서 적용하고 해결됨!@@!!@
   2. RoomDB 필연적으로 사용해야할듯? 아이템클릭시 QR생성이아니라 처음에 MakeActivity에서 생성할때 모든 정보들을 Room에 잘 담고 그 정보들로 QR정보 
   3. QR 스캔시에 정상적으로 스캔이 완료되면 해당 아이템을 찾아와서 사용할것인지의 여부를 보여주는 기능이 필요함
 + Firebase가 아니라 Room - ViewModel - LiveData - recyclerView (MVVM) 으로 구현할 필요가 있어보임 

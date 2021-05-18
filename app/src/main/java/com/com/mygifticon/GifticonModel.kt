@@ -7,7 +7,7 @@ data class GifticonModel(
     val gift_explain: String,
     val gift_price: String,
     val gift_sellerId: String,
-    val gift_imageUrl: String
+    val gift_imageUrl: String?
 ): Serializable
 
 //{

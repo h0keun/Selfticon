@@ -44,7 +44,7 @@ class GifticonActivity : AppCompatActivity() {
         binding.giftSellerId.text = gifticonData.gift_sellerId
 
         val img = binding.giftQR
-        val qrId = "상품명 : ${gifticonData.gift_title}\n상품설명 : ${gifticonData.gift_explain}"
+        val qrId = "${gifticonData.gift_title} ${gifticonData.gift_explain} ${gifticonData.gift_price} ${gifticonData.gift_sellerId} ${gifticonData.gift_imageUrl}"
         createQRcode(img, qrId)
 
         Glide

@@ -4,7 +4,10 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.com.mygifticon.DBKey.Companion.DB_ARTICLES
 import com.com.mygifticon.databinding.ActivityGifticonBinding
@@ -36,6 +39,16 @@ class GifticonActivity : AppCompatActivity() {
         val binding = ActivityGifticonBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val sharedPreferencesState = getSharedPreferences("StateGiftIcon", 0).getString("state","")
+
+        if(sharedPreferencesState == "ListToGiftIcon"){
+            binding.ClickStateFromList.isVisible = true
+            binding.ClickStateFromScan.isVisible = false
+        }else{
+            binding.ClickStateFromScan.isVisible = true
+            binding.ClickStateFromList.isVisible = false
+        }
+
         val gifticonData = intent.getSerializableExtra("gifticonModel") as GifticonModel
 
         binding.giftTitle.text = gifticonData.gift_title
@@ -61,6 +74,22 @@ class GifticonActivity : AppCompatActivity() {
                     val nextIntent = Intent(this, MainActivity::class.java)
                     nextIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(nextIntent)
+                    Toast.makeText(this, "삭제하였습니다.", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener {
+
+                }
+        }
+
+        binding.useButton.setOnClickListener {
+            val imageName2 =
+                "${gifticonData.gift_title}${gifticonData.gift_price}${gifticonData.gift_sellerId}"
+            storage.reference.child("article/photo").child("${imageName2}.png").delete()
+                .addOnSuccessListener {
+                    articleDB.child(imageName2).removeValue()
+                    val nextIntent = Intent(this, MainActivity::class.java)
+                    nextIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    startActivity(nextIntent)
+                    Toast.makeText(this, "기프티콘 사용완료.", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener {
 
                 }
@@ -100,5 +129,17 @@ class GifticonActivity : AppCompatActivity() {
                 type = "text/plain"
             }
         startActivity(Intent.createChooser(intent, null))
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val nextIntent = Intent(this, MainActivity::class.java)
+        nextIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(nextIntent)
+        // ScanFragment 에서 기프티콘을 스캔한후 기프티콘의 정보를 보여주기위해
+        // 이 엑티비티로 넘어오게 되는데, 여기서 취소버튼을 눌럿을 경우
+        // 기존에 zxing 의 CaptureActivity 를 담고있는 ScanFragment 를 띄우는게 아니라
+        // CaptureActivity 는 종료된 상태로 비어있는 ScanFragment 만 보여지게 되어서 사용성이 저하되기 때문에
+        // 이방식을 썼는데, 사실 이 부분은 layout.xml 에서 list 에서 호출했을 때와 scan 에서 호출했을 때 다른 화면을 보여줘서 해결가능할지도
     }
 }

@@ -65,6 +65,12 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                 gift_imageUrl = articleModel.imageUrl
             )
 
+            val state = "ListToGiftIcon"
+            val sharedPreferences = requireActivity().getSharedPreferences("StateGiftIcon", 0)
+            val editor = sharedPreferences.edit()
+            editor.putString("state",state)
+            editor.apply()
+
             val intent = Intent(requireContext(), GifticonActivity::class.java)
             intent.putExtra("gifticonModel", Gifticon)
             startActivity(intent)

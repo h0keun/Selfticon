@@ -17,6 +17,9 @@
     <color name="gray3">#C8C8C8</color>
     <color name="floting">#9CCC65</color>
 
+    <color name="light_gray">#EDEDED</color>
+    <color name="dark_gray">#FF707070</color>
+
     <color name="maincolor">#EF5350</color>
     <color name="lightgray">#EDEDED</color>
 

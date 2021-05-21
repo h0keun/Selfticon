@@ -113,6 +113,10 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             } else {
                 Toast.makeText(context, "QR코드 스캔결과 \n" + result.contents, Toast.LENGTH_SHORT).show()
                 // todo 사이트 주소면 webView 액티비티 띄우고, 상품정보면 Retrofit 으로 검색정보 받아오는 액티비티 띄우기
+                val webIntent = Intent(context, WebViewActivity::class.java)
+                webIntent.putExtra("QRtoWeb", result.contents)
+                webIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(webIntent)
             }
         }
     }

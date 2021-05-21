@@ -26,7 +26,6 @@ import com.google.firebase.storage.ktx.storage
 class MakeActivity : AppCompatActivity() {
 
     private var selectedUri: Uri? = null
-    private var imageState: Boolean = false
 
     private val storage: FirebaseStorage by lazy {
         Firebase.storage
@@ -40,6 +39,7 @@ class MakeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMakeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
 
         binding.setImageButton.setOnClickListener {
@@ -69,7 +69,7 @@ class MakeActivity : AppCompatActivity() {
                 Toast.makeText(this, "위 정보를 입력해 주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            imageState = true
+
         }
 
         binding.makeButton.setOnClickListener {
@@ -78,27 +78,22 @@ class MakeActivity : AppCompatActivity() {
             val price = binding.setPrice.editText?.text.toString()
             val sellerId = binding.setSeller.editText?.text.toString()
 
-            if (title.isNotEmpty() && explain.isNotEmpty() && price.isNotEmpty() && sellerId.isNotEmpty() && imageState) {
+            if (title.isNotEmpty() && explain.isNotEmpty() && price.isNotEmpty() && sellerId.isNotEmpty() && selectedUri != null) {
                 showProgress()
-                if (selectedUri != null) {
-                    val imageName =
-                        binding.setTitle.editText?.text.toString() + binding.setPrice.editText?.text.toString() + binding.setSeller.editText?.text.toString()
-                    val photoUri = selectedUri ?: return@setOnClickListener
 
-                    uploadPhoto(imageName, photoUri,
-                        successHandler = { uri ->
-                            uploadArticle(title, explain, price, sellerId, uri)
-                        },
-                        errorHandler = {
-                            Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
-                            hideProgress()
-                        }
-                    )
-                } else {
-                    Toast.makeText(this, "모든 정보를 입력해 주세요.", Toast.LENGTH_SHORT).show()
-                    //uploadArticle(title, explain, price, sellerId, "")
-                }
+                val imageName =
+                    binding.setTitle.editText?.text.toString() + binding.setPrice.editText?.text.toString() + binding.setSeller.editText?.text.toString()
+                val photoUri = selectedUri ?: return@setOnClickListener
 
+                uploadPhoto(imageName, photoUri,
+                    successHandler = { uri ->
+                        uploadArticle(title, explain, price, sellerId, uri)
+                    },
+                    errorHandler = {
+                        Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        hideProgress()
+                    }
+                )
             } else {
                 Toast.makeText(this, "모든 정보를 입력해 주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener

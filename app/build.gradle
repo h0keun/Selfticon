@@ -64,4 +64,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
 }

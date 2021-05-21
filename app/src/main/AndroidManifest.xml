@@ -40,6 +40,11 @@
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
 
+        <activity
+            android:name=".WebViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.WebBrowser"
+            android:usesCleartextTraffic="true" />
 
     </application>
 

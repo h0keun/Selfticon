@@ -1,9 +1,19 @@
+
+
+
+
+
+
+
+
+
+
 ### 진행상황
-<img src="https://user-images.githubusercontent.com/63087903/118218738-06227800-b4b3-11eb-8307-d4cccf51fff0.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218744-091d6880-b4b3-11eb-9163-93e64b9b7459.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218747-0ae72c00-b4b3-11eb-8380-bb8e60cd5e66.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218752-0d498600-b4b3-11eb-81c9-7a21d57de3f0.jpg" width="200" height="430">
+<img src="https://user-images.githubusercontent.com/63087903/119095476-4bafe980-ba4d-11eb-9337-594b1b0dd69e.jpg" width="200" height="430"><img src="
+https://user-images.githubusercontent.com/63087903/119095481-4ce11680-ba4d-11eb-8de4-74ea8abafcdd.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119095489-4eaada00-ba4d-11eb-9d5b-25723a5ef5c6.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119095492-4f437080-ba4d-11eb-9ce4-d2ac3794efd4.jpg" width="200" height="430">
 
-<img src="https://user-images.githubusercontent.com/63087903/118218760-0e7ab300-b4b3-11eb-968f-55efe429e99c.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118444049-9ff25b00-b727-11eb-9c8e-03c81a551609.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118218765-1175a380-b4b3-11eb-912a-79826991d6a0.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/118445580-95d15c00-b729-11eb-9771-85d35f4bc841.jpg" width="200" height="430">
+<img src="https://user-images.githubusercontent.com/63087903/119095478-4c488000-ba4d-11eb-934b-6057bbcc6083.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119095483-4ce11680-ba4d-11eb-875e-e917b59bd20c.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119095490-4eaada00-ba4d-11eb-994b-d9dd73586418.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119095471-4a7ebc80-ba4d-11eb-8255-ecfb98e4ad40.jpg" width="200" height="430">
 
-<img src="https://user-images.githubusercontent.com/63087903/118445583-97028900-b729-11eb-8108-77535e2adc27.jpg" width="200" height="430">
 
 + Material Design, Glide
 + Firebase : Realtime Database와 Storage 를 이용해 아이템을 추가하고 리사이클러뷰에 받아오는중

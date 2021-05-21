@@ -9,6 +9,9 @@
 + Firebase : Realtime Database와 Storage 를 이용해 아이템을 추가하고 리사이클러뷰에 받아오는중
 + zxing Library : QR코드 생성과 스캔을 위한 라이브러리 사용중
 
+
+### [2021-05-20] 삽질 1
+
 ### ERROR
 큐알코드 스캔시 경우에따라 처리해야할 내용들이 많음  
 1. 만든 큐알코드가 아닌 기존에 존재하는 바코드나 큐알 코드스캔시 > detail : 사이트 이동(load url or Image search)

@@ -39,12 +39,14 @@ class GifticonActivity : AppCompatActivity() {
         val binding = ActivityGifticonBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sharedPreferencesState = getSharedPreferences("StateGiftIcon", 0).getString("state","")
 
-        if(sharedPreferencesState == "ListToGiftIcon"){
+        val sharedPreferencesState =
+            getSharedPreferences("StateGiftIcon", 0).getString("state", "ListToGiftIcon")
+
+        if (sharedPreferencesState == "ListToGiftIcon") {
             binding.ClickStateFromList.isVisible = true
             binding.ClickStateFromScan.isVisible = false
-        }else{
+        } else {
             binding.ClickStateFromScan.isVisible = true
             binding.ClickStateFromList.isVisible = false
         }
@@ -57,7 +59,8 @@ class GifticonActivity : AppCompatActivity() {
         binding.giftSellerId.text = gifticonData.gift_sellerId
 
         val img = binding.giftQR
-        val qrId = "${gifticonData.gift_title} ${gifticonData.gift_explain} ${gifticonData.gift_price} ${gifticonData.gift_sellerId} ${gifticonData.gift_imageUrl}"
+        val qrId =
+            "${gifticonData.gift_title},\n${gifticonData.gift_explain},\n${gifticonData.gift_price},\n${gifticonData.gift_sellerId},\n${gifticonData.gift_imageUrl}"
         createQRcode(img, qrId)
 
         Glide
@@ -72,7 +75,8 @@ class GifticonActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     articleDB.child(imageName).removeValue()
                     val nextIntent = Intent(this, MainActivity::class.java)
-                    nextIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    nextIntent.flags =
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(nextIntent)
                     Toast.makeText(this, "삭제하였습니다.", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener {
@@ -86,9 +90,10 @@ class GifticonActivity : AppCompatActivity() {
             storage.reference.child("article/photo").child("${imageName2}.png").delete()
                 .addOnSuccessListener {
                     articleDB.child(imageName2).removeValue()
-                    val nextIntent = Intent(this, MainActivity::class.java)
-                    nextIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    startActivity(nextIntent)
+                    val nextIntent2 = Intent(this, MainActivity::class.java)
+                    nextIntent2.flags =
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(nextIntent2)
                     Toast.makeText(this, "기프티콘 사용완료.", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener {
 
@@ -106,15 +111,16 @@ class GifticonActivity : AppCompatActivity() {
 
         try {
             val hints = HashMap<EncodeHintType, Any>()
-            hints[EncodeHintType.CHARACTER_SET] = "utf-8"
+            hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
 
             val bitMatrix: BitMatrix =
-                multiFormatWriter.encode(qrId, BarcodeFormat.QR_CODE, 200, 200, hints)
+                multiFormatWriter.encode(qrId, BarcodeFormat.QR_CODE, 300, 300, hints)
             val barcodeEncoder: BarcodeEncoder = BarcodeEncoder()
             val bitmap: Bitmap = barcodeEncoder.createBitmap(bitMatrix)
             img.setImageBitmap(bitmap)
 
-        } catch (e: Exception) { }
+        } catch (e: Exception) {
+        }
     }
 
     private fun shareButtonClicked() {
@@ -133,13 +139,15 @@ class GifticonActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val nextIntent = Intent(this, MainActivity::class.java)
-        nextIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(nextIntent)
-        // ScanFragment 에서 기프티콘을 스캔한후 기프티콘의 정보를 보여주기위해
-        // 이 엑티비티로 넘어오게 되는데, 여기서 취소버튼을 눌럿을 경우
-        // 기존에 zxing 의 CaptureActivity 를 담고있는 ScanFragment 를 띄우는게 아니라
-        // CaptureActivity 는 종료된 상태로 비어있는 ScanFragment 만 보여지게 되어서 사용성이 저하되기 때문에
-        // 이방식을 썼는데, 사실 이 부분은 layout.xml 에서 list 에서 호출했을 때와 scan 에서 호출했을 때 다른 화면을 보여줘서 해결가능할지도
+        val sharedPreferencesState =
+            getSharedPreferences("StateGiftIcon", 0).getString("state", "ListToGiftIcon")
+        if (sharedPreferencesState == "ListToGiftIcon") {
+            finish()
+        } else {
+            val nextIntent3 = Intent(this, MainActivity::class.java)
+            nextIntent3.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(nextIntent3)
+            Toast.makeText(this, "취소되었습니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -14,6 +14,8 @@
     <string name="makeImage">사진선택</string>
     <string name="makeQR">큐알코드 생성</string>
 
+    <string name="makeButtonNext">기프티콘 생성중 입니다...</string>
+
     <string name ="useButton">기프티콘 사용하기</string>
 
 

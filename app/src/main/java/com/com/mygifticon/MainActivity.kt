@@ -21,16 +21,18 @@ class MainActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
-            val nextIntent = Intent(this, MakeActivity::class.java)
-            startActivity(nextIntent)
+            val goIntent = Intent(this, MakeActivity::class.java)
+            startActivity(goIntent)
         }
 
-        val listFragment = ListFragment()
-        val scanFragment = ScanFragment()
+
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
         bottomNavigationView.background = null
         bottomNavigationView.menu.getItem(1).isEnabled = false
+
+        val listFragment = ListFragment()
+        val scanFragment = ScanFragment()
 
         changeFragment(listFragment)
 

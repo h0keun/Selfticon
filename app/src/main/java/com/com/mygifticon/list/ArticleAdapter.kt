@@ -9,11 +9,13 @@ import com.bumptech.glide.Glide
 import com.com.mygifticon.databinding.ItemArticleBinding
 
 
-class ArticleAdapter(val onItemClicked: (ArticleModel) -> Unit): ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffUtil){
+class ArticleAdapter(val onItemClicked: (ArticleModel) -> Unit) :
+    ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffUtil) {
 
-    inner class ViewHolder(private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private val binding: ItemArticleBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(articleModel: ArticleModel){
+        fun bind(articleModel: ArticleModel) {
 
             binding.titleTextView.text = articleModel.title
             binding.explainTextView.text = articleModel.explain
@@ -33,7 +35,13 @@ class ArticleAdapter(val onItemClicked: (ArticleModel) -> Unit): ListAdapter<Art
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ItemArticleBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

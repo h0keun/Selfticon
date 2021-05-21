@@ -17,8 +17,6 @@ import com.com.mygifticon.DBKey.Companion.DB_ARTICLES
 import com.com.mygifticon.R
 import com.com.mygifticon.databinding.ActivityMakeBinding
 import com.com.mygifticon.list.ArticleModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -28,6 +26,7 @@ import com.google.firebase.storage.ktx.storage
 class MakeActivity : AppCompatActivity() {
 
     private var selectedUri: Uri? = null
+    private var imageState: Boolean = false
 
     private val storage: FirebaseStorage by lazy {
         Firebase.storage
@@ -44,22 +43,33 @@ class MakeActivity : AppCompatActivity() {
 
 
         binding.setImageButton.setOnClickListener {
-            when {
-                ContextCompat.checkSelfPermission(
-                    this,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED -> {
-                    startContentProvider()
+            val title = binding.setTitle.editText?.text.toString()
+            val explain = binding.setExplain.editText?.text.toString()
+            val price = binding.setPrice.editText?.text.toString()
+            val sellerId = binding.setSeller.editText?.text.toString()
+
+            if (title.isNotEmpty() && explain.isNotEmpty() && price.isNotEmpty() && sellerId.isNotEmpty()) {
+                when {
+                    ContextCompat.checkSelfPermission(
+                        this,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED -> {
+                        startContentProvider()
+                    }
+                    shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                        showPermissionContextPopup()
+                    }
+                    else -> {
+                        requestPermissions(
+                            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1010
+                        )
+                    }
                 }
-                shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                    showPermissionContextPopup()
-                }
-                else -> {
-                    requestPermissions(
-                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1010
-                    )
-                }
+            } else {
+                Toast.makeText(this, "위 정보를 입력해 주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+            imageState = true
         }
 
         binding.makeButton.setOnClickListener {
@@ -68,24 +78,30 @@ class MakeActivity : AppCompatActivity() {
             val price = binding.setPrice.editText?.text.toString()
             val sellerId = binding.setSeller.editText?.text.toString()
 
-            showProgress()
+            if (title.isNotEmpty() && explain.isNotEmpty() && price.isNotEmpty() && sellerId.isNotEmpty() && imageState) {
+                showProgress()
+                if (selectedUri != null) {
+                    val imageName =
+                        binding.setTitle.editText?.text.toString() + binding.setPrice.editText?.text.toString() + binding.setSeller.editText?.text.toString()
+                    val photoUri = selectedUri ?: return@setOnClickListener
 
-            if (selectedUri != null) {
-                val imageName =
-                    binding.setTitle.editText?.text.toString() + binding.setPrice.editText?.text.toString() + binding.setSeller.editText?.text.toString()
-                val photoUri = selectedUri ?: return@setOnClickListener
+                    uploadPhoto(imageName, photoUri,
+                        successHandler = { uri ->
+                            uploadArticle(title, explain, price, sellerId, uri)
+                        },
+                        errorHandler = {
+                            Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                            hideProgress()
+                        }
+                    )
+                } else {
+                    Toast.makeText(this, "모든 정보를 입력해 주세요.", Toast.LENGTH_SHORT).show()
+                    //uploadArticle(title, explain, price, sellerId, "")
+                }
 
-                uploadPhoto(imageName, photoUri,
-                    successHandler = { uri ->
-                        uploadArticle(title, explain, price, sellerId, uri)
-                    },
-                    errorHandler = {
-                        Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
-                        hideProgress()
-                    }
-                )
             } else {
-                uploadArticle(title, explain, price, sellerId, "")
+                Toast.makeText(this, "모든 정보를 입력해 주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
         }
     }
@@ -126,6 +142,9 @@ class MakeActivity : AppCompatActivity() {
 
         hideProgress()
         finish()
+//        val nextIntent = Intent(this, MainActivity::class.java)
+//        nextIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+//        startActivity(nextIntent)
     }
 
     override fun onRequestPermissionsResult(

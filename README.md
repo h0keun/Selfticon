@@ -1,3 +1,23 @@
+## Selfticon
++ 개발환경 : Android Studio, Kotlin, Git
++ 개발기간 : 2021.04 ~ 2021.05
++ 기술스텍 및 라이브러리  
+  + Material Design : Custom Bottom Navigation, Material textfield
+  + Glide + Content Provider
+  + RecyclerView + Firebase : Realtime Database, Storage
+  + zxing Library, Web
+
+### 소개
+
+### 기획
+시중에 돌아다니는 기프티콘 쿠폰들을 보면 전부 프랜차이즈사의 상품들만 기프티콘이 존재한다. 소상공인분들 혹은 일반 개인들도 쉽게 기프티콘을 만들어서 서로 다른 사람들끼리 사용할 수 있도록 한다면 어떨까 하는 취지에서 시작하게 되었다.
+
++ Target 1 : 개인카페, 베이커리, 패스트푸드 등을 운영하는 소상공인
++ Target 2 : 연인이나 친구, 가족사이
+
+### 기대효과
+일반 사용자들은 개인이 직접만드는 기프티콘을 통해 재미를 얻을 수 있고, 소상공인분들은 자체서비스를 이용한다거나 카카오톡 기프트샾, 당근마켓 등 의 플랫폼을 활용한다던가 함으로써 매출상승 효과를 얻을 수 있다.
+
 ### 진행상황
 <img src="https://user-images.githubusercontent.com/63087903/119095476-4bafe980-ba4d-11eb-9337-594b1b0dd69e.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119096133-27a0d800-ba4e-11eb-8539-a476a0078c12.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119095489-4eaada00-ba4d-11eb-9d5b-25723a5ef5c6.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119095492-4f437080-ba4d-11eb-9ce4-d2ac3794efd4.jpg" width="200" height="430">
 
@@ -11,7 +31,7 @@
 + Material Design : Custom Bottom Navigation, Material textfield
 + Glide + Content Provider
 + RecyclerView + Firebase : Realtime Database, Storage
-+ zxing Library
++ zxing Library, Web
 
 Webview 말고 Retorfit으로 다른 상용바코드정보 받아올까 생각중
 
@@ -37,14 +57,9 @@ Webview 말고 Retorfit으로 다른 상용바코드정보 받아올까 생각�
   5개라고해서 배열길이가 5가아니라 훨씬 길 수도 있음 근데 이거는 지금생각으로 에러는 없앨수있는데 스캔할 때 정보들이 띄어쓰기가 없는 정보가 될듯.. 어케하지?
   >> ✔ 엔터로 나눔
  
-### 기획
-시중에 돌아다니는 기프티콘 쿠폰들을 보면 전부 프랜차이즈사의 상품들만 기프티콘이 존재한다.  
-소상공인들도 쉽게 기프티콘을 제작하여 사람들이 사용할 수 있다면? 아니면 일반 사람들이 재미있게 기프티콘을 주고받는다묜?
 
-유형 : 카페, 베이커리, 패스트푸드 (타겟층 기프티콘 많이쓰는 젊은층) why? 기프티콘 서비스는 프랜차이즈 한정임.  
-플랫폼 : 자체서비스로할지 아니면 배달의민족이나 당근마켓, 카카오톡 기프티콘샾 같은 서비스위에 얹혀지는 서비스로 할지  
-  - 다른 플랫폼위에 얹혀지는거면 그과정이 귀찮아서 사람들이 이용 안할지도?
-  - 자체 플랫폼으로 하면 구현해야할게 상당히 많아짐  
+
+
 기능
 + 액티비티 1개 with 프래그먼트 2개
   - 생성한 기프티콘 리스트들이 보여지는 프래그먼트1과 기프티콘을 스캔하는 프래그먼트2  

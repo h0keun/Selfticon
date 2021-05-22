@@ -2,16 +2,17 @@ package com.com.mygifticon
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
-import com.com.mygifticon.DBKey.Companion.DB_ARTICLES
 import com.com.mygifticon.databinding.ActivityGifticonBinding
-import com.com.mygifticon.make.MakeActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -22,8 +23,12 @@ import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import kotlin.collections.HashMap
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
+
+@Suppress("DEPRECATION")
 class GifticonActivity : AppCompatActivity() {
 
     private val storage: FirebaseStorage by lazy {
@@ -101,8 +106,8 @@ class GifticonActivity : AppCompatActivity() {
         }
 
         binding.shareButton.setOnClickListener {
-            binding.captureLayout
-            shareButtonClicked()
+            val captureView = binding.captureLayout
+            screenShareButtonClicked(captureView)
         }
     }
 
@@ -123,18 +128,41 @@ class GifticonActivity : AppCompatActivity() {
         }
     }
 
-    private fun shareButtonClicked() {
+    private fun screenShareButtonClicked(captureView: CardView) {
 
-        val intent = Intent()
-            .apply {
-                action = Intent.ACTION_SEND
-                putExtra(
-                    Intent.EXTRA_TEXT,
-                    "[공유기능 테스트 지금은 텍스트지만 나중엔 이미지로]"
-                )
-                type = "text/plain"
-            }
-        startActivity(Intent.createChooser(intent, null))
+
+
+//        val bitmap: Bitmap = captureView.drawingCache
+//        var fos: FileOutputStream
+//        val captureView: View = window.decorView.rootView
+        captureView.isDrawingCacheEnabled = true //화면에 뿌릴때 캐시를 사용하게 한다
+        //captureView.buildDrawingCache() //캐시 비트 맵 만들기
+        val screenBitmap: Bitmap = Bitmap.createBitmap(captureView.drawingCache)
+
+        try {
+            val cachePath = File(applicationContext.cacheDir, "images")
+            cachePath.mkdirs() // don't forget to make the directory
+            val stream =
+                FileOutputStream("$cachePath/image.png") // overwrites this image every time
+            screenBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            stream.close()
+            val newFile = File(cachePath, "image.png")
+            val contentUri: Uri = FileProvider.getUriForFile(
+                applicationContext,
+                "com.com.mygifticon.fileprovider", newFile
+            )
+            val shareIntent = Intent()
+                .apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(
+                        Intent.EXTRA_STREAM, contentUri
+                    )
+                    type = "image/png"
+                }
+            startActivity(Intent.createChooser(shareIntent, "Share image"))
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
     }
 
     override fun onBackPressed() {

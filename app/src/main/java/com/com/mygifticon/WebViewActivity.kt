@@ -112,7 +112,7 @@ class WebViewActivity  : AppCompatActivity() {
             val backIntent = Intent(this, MainActivity::class.java)
             backIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(backIntent)
-            Toast.makeText(this, "웹 브라주저를 종료했습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "웹 브라우저를 종료했습니다.", Toast.LENGTH_SHORT).show()
 
         }
     }

@@ -8,6 +8,15 @@
   + zxing Library, Web
 
 ### 소개
+'Selfticon'은 기프티콘을 만들어주는 앱이다.
+데이터는 파이어베이스 서버에 저장되며, 각각의 액티비티에서는 다음과 같은 기능을 담당한다.
+
++ 기프티콘 생성
+  : 상품명, 상품설명, 가격, 교환처, 상품사진 에 해당하는 데이터는 Firebase에 저장되며, 이 정보들을 취합해 QR코드를 만든다.
++ 기프티콘 목록
+  : Firebase에 저장된 데이터들을 취합하여 리사이클러뷰를 통해 리스트화 하여 보여준다.
++ 기프티콘 스캔
+  : Firebase에 저장된 데이터들을 실시간으로 확인하여 사용한 기프티콘과 미사용한 기프티콘을 구분짓고 삭제 및 공유가 가능하며, 기존에 존재하는 상용 바코드나 QR코드들은 WebView를 통해 그 정보를 제공한다.
 
 ### 기획
 시중에 돌아다니는 기프티콘 쿠폰들을 보면 전부 프랜차이즈사의 상품들만 기프티콘이 존재한다. 소상공인분들 혹은 일반 개인들도 쉽게 기프티콘을 만들어서 서로 다른 사람들끼리 사용할 수 있도록 한다면 어떨까 하는 취지에서 시작하게 되었다.
@@ -18,22 +27,16 @@
 ### 기대효과
 일반 사용자들은 개인이 직접만드는 기프티콘을 통해 재미를 얻을 수 있고, 소상공인분들은 자체서비스를 이용한다거나 카카오톡 기프트샾, 당근마켓 등 의 플랫폼을 활용한다던가 함으로써 매출상승 효과를 얻을 수 있다.
 
-### 진행상황
+### 상세설명
+
+### 스크린샷
 <img src="https://user-images.githubusercontent.com/63087903/119095476-4bafe980-ba4d-11eb-9337-594b1b0dd69e.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119096133-27a0d800-ba4e-11eb-8539-a476a0078c12.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119095489-4eaada00-ba4d-11eb-9d5b-25723a5ef5c6.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119095492-4f437080-ba4d-11eb-9ce4-d2ac3794efd4.jpg" width="200" height="430">
 
 <img src="https://user-images.githubusercontent.com/63087903/119228343-8c8f2780-bb4d-11eb-89c3-634459fc4db6.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119228344-8dc05480-bb4d-11eb-9ac2-494b0c2dfcac.PNG" width="240" height="430"><img src="https://user-images.githubusercontent.com/63087903/119228345-8e58eb00-bb4d-11eb-9990-6ec544b90f2a.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119095490-4eaada00-ba4d-11eb-994b-d9dd73586418.jpg" width="200" height="430">
 
 <img src="https://user-images.githubusercontent.com/63087903/119095471-4a7ebc80-ba4d-11eb-8255-ecfb98e4ad40.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119126589-2b445700-ba6e-11eb-9a67-a1092f9590c9.jpg" width="200" height="430"><img src="https://user-images.githubusercontent.com/63087903/119126603-30090b00-ba6e-11eb-858d-ffbcd0e8259c.jpg" width="200" height="430">
 
-
-
-### 기술스텍 및 라이브러리
-+ Material Design : Custom Bottom Navigation, Material textfield
-+ Glide + Content Provider
-+ RecyclerView + Firebase : Realtime Database, Storage
-+ zxing Library, Web
-
-Webview 말고 Retorfit으로 다른 상용바코드정보 받아올까 생각중
+### 구동영상
 
 ### [2021-05-20] 삽질 1
 ### [2021-05-21] 삽질 끝. onDataChange가 비동기 방식이라 콜백처리에 문제가 있었음
@@ -99,20 +102,8 @@ Webview 말고 Retorfit으로 다른 상용바코드정보 받아올까 생각�
   💡 기프티콘에 최대한 정보를 깔끔명료하게 담아서 다른 서비스위에 얹힐 수 있도록하는게 개인으로서 진행하는데는 최선이라고 생각든다  
   💡 과연 소상공인을 위한 서비스이긴 한건가 소상공인 + 기프티콘 어떤 특색을 적용해야할지 고민해보쟝
   
-### 아마 사용해야할 기술?
-+ Zxing : 바코드 생성 및 스캔 라이브러리
-+ Firebase : 상점서비스까지 갔을 때
-+ Glide : 디바이스사진 업로드할때
-+ Room : 리사이클러뷰 저장
-+ 그냥 시작부터 로그인기능 넣고 firebase연동할까(상점까지 안가고 개인단위에서 가족.친구들 사이에서 쓰기엔 과함)
-+ 일단 생각나는거는 이정도
-  
-## 실무능력 적용할 부분
-retrofit 안쓰는게 아쉽긴 하지만 그런대로 최대한 다른것들 많이 적용해보자  
-예를들어  
-아키텍쳐 패턴 : MVC, MVP, MVVM 중 하나  
-JetPack 활용 : dataBinding, livedata, viewmodel 등 무엇이든.  
-Glide 활용  
-recyclerView 활용 등
-
+### 개선 가능한 부분
++ ver.2 MVVM으로 만들어보기 : Room + ViewModel + LiveData + RecyclerView
++ WebView형식으로 상용바코드정보 보여주는게 아닌 Retorifit으로 데이터를 받아와서 뿌려주기
++ 리펙토링
 

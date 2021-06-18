@@ -34,6 +34,8 @@
   💡 생성한 기프티콘 리스트들이 보여지는 ListFragment와 기프티콘을 스캔하는 ScanFragment
   ListFragment의 아이템들은 Firebase에 저장된 정보들을 가져와서 뿌려주었고,
   ScanFragment는 Zxing 라이브러리를 통해 QR코드 스캐너를 구현하였다.
+  MakeActivity로 넘어가는 FloatingActionButton 은 따로 커스텀하여,  
+  바텀네비게이션 중앙에 위치하도록 구현
   ```
 + MakeActivity - Firebase
   ```
@@ -110,7 +112,7 @@
 
 ## 💡 개선 가능한 부분
 + ver.2 MVVM으로 만들어보기 : Room + ViewModel + LiveData + RecyclerView
-+ WebView형식으로 상용바코드정보 보여주는게 아닌 Retorifit으로 데이터를 받아와서 뿌려주기
++ WebView형식으로 상용바코드정보 보여주는게 아니라 필요한 정보만 쏙 뽑아서 레이아웃 화면에 보여줄 수 있을까?  
 + 리펙토링
 
 ## 📌 사용한 오픈소스

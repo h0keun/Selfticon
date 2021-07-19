@@ -75,14 +75,18 @@
 
 <img src="https://user-images.githubusercontent.com/63087903/119126603-30090b00-ba6e-11eb-858d-ffbcd0e8259c.jpg" width="200" height="430">
 
+## 🛠 개발과정 겪었던 에러와 해결방안
++ Firebase를 다루는 부분에서 에러가 많이 발생했고, 나머지 에러들은 어렵지않게 해결할 수 있었다.
+```KOTLIN
+* 자잘한 에러사항
 
 
-## 🎬 구동영상
+```
+```KOTLIN
+* Firebase - Realtime Database를 사용하며 겪었던 에러
 
 
-
-
-
+```
 ### ⚙ 찾은 버그
 1. 기프티콘 만들 때 입력정보 없이 만들게되면 앱 오류나서 꺼짐 + 다시 들어갈때도 강종됨  
   : 파이어베이스 데이터 정보를 확인해보니 리얼타임DB 의 model 값들이 전부 null로 초기화되어서 아이템이 Null값으로 1개만존재하게 되어 생긴 문제  
@@ -112,7 +116,6 @@
 
 ## 💡 개선 가능한 부분
 + ver.2 MVVM으로 만들어보기 : Room + ViewModel + LiveData + RecyclerView
-+ WebView형식으로 상용바코드정보 보여주는게 아니라 필요한 정보만 쏙 뽑아서 레이아웃 화면에 보여줄 수 있을까?  
 + 리펙토링
 
 ## 📌 사용한 오픈소스

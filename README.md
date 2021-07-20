@@ -75,19 +75,49 @@
 
 <img src="https://user-images.githubusercontent.com/63087903/119126603-30090b00-ba6e-11eb-858d-ffbcd0e8259c.jpg" width="200" height="430">
 
-## 🛠 개발과정 겪었던 에러와 해결방안
-+ Firebase를 다루는 부분에서 에러가 많이 발생했고, 나머지 에러들은 어렵지않게 해결할 수 있었다.
+## 🛠 개발과정 겪었던 에러와 해결방안 (코드보며 확인할것!)
++ Firebase Storage, Realtime Database를 다루는 부분에서 에러가 많이 발생
 ```KOTLIN
-* Firebase - Realtime Database를 사용하며 겪었던 에러
+1. 프래그먼트 이동시 RecyclerView 의 item이 중복 생성되는 문제
 
-onChildAdded vs onDataChanged 
-기프티콘 생성과정에서 onChildAdded 를 사용하엿고, 
-기프티콘 생성과정에서 onDataChanged 를 사용하였는데,
+👉 RecyclerView의 item들이 보여지는 fragment는 listFragment 이다.
+MakeActivity에서 아이템을 생성하여 파이어베이스에 해당 내용을 업로드하게되면,
+listFragment에서는 파이어베이스 addChildEventListener의 onChildAdded() 메소드를 상속받아 읽은후 
+아래의 과정을 거처 리사이클러뷰에 추가하게 된다. 
 
-명확한 구분이 필요하다. 하나는 리사이클러뷰에 업데이트 하나는 실시간 데이터확인??
+articleList.add(articleModel)
+articleAdapter.submitList(articleList)
 
-작성중...
+이때, onChildAdded()는 onViewCreated()에서 addChildEventListener를 호출하여 실행된다.
+때문에 다른 프래그먼트로 이동했다가 다시 돌아오게되면 addChildEventListener가 한번더 호출되기 때문에
+위의 코드가 한번더 수행된다. 개인적으로는 이러한 이유때문에 아이템이 중복생성되어 리사이클러뷰에 추가되었다고 생각하였고
+이를 해결하기위해 onViewCreated() 에 articleList.clear() 를 추가는 방식을 사용하였다.
+```
+```KOTLIN
+✔ 짚고 넘어가야할 내용 ---------------------------------------------------------------------------------------
+* scanFragment에서 스캔한 아이템이 존재하는지 여부는 onDataChanged() 를 통해 이루어진다.
 
+onDataChanged()를 사용한 이유
+1. 생성된 아이템의 QR코드는 아이템의 이름, 가격, 설명 등의 정보를 문자열로 이어 붙인 값이다.
+   : 때문에 QR코드를 스캔하면 위의 텍스트 정보를 보여주게 된다.
+2. 여기서 발생되는 문제 
+   : QR코드 스캔 가능/불가능 여부는 리사이클러뷰에 존재하는 아이템 인지/아닌지 여부와 상관이 없다!! 
+   🥕 (QR코드는 정보를 담고 있을뿐!! 정보의 유뮤가 아님!!)
+   때문에 리사이클러뷰에 아이템이 없더라도 QR코드를 스캔하면 이름, 가격, 설명 드의 정보가 그대로 텍스트로 보여진다.
+3. 내가 원하던 방식은 QR스캔결과 아이템 존재 여부를 구분짓는것 이다. 
+   : QR코드 스캔시 리사이클러뷰에 존재하는 아이템이면 텍스트정보를 읽지만, 
+   리사이클러뷰에 존재하지 않는 아이템이면 QR코드 스캔 자체를 진행하면 안된다.
+    
+리사이클러뷰의 아이템은 Firebase에서 받아오는것이기 때문에
+아이템의 존재여부를 확인하기 위해 실시간으로 firebase를 들여다 보는것이 필요했고, 
+그것이 onDataChanged를 사용하는 이유이다.(실시간으로 데이터를 읽어들임!)
+-------------------------------------------------------------------------------------------------------------
+
+2. ScanFragment 실행후 MakeActivity에서 아이템을 생성하면 강제종료되는 현상
+
+👉 onDataChanged()가 실시간 + 비동기로 호출되는 방식이라 발생한 문제로
+해결방안은 아래 '⚙ 찾은 버그' 에 기술해 두었음!
+ 
 ```
 + 기프티콘 공유하기  
 [링크 참조 - FileProvider](https://keykat7.blogspot.com/2021/02/android-fileprovider.html)  
@@ -132,10 +162,12 @@ onChildAdded vs onDataChanged
   이후 최종적으로 onDestroyView에서 removeValueEventListener 를 호출하여 의도와는 다른 이벤트가 실행되는 것을 해결하였다.
   ```
 
-
-## 💡 개선 가능한 부분
+## 💡 개선 가능한 부분 및 추가로 알아볼 부분
 + ver.2 MVVM으로 만들어보기 : Room + ViewModel + LiveData + RecyclerView
++ 리사이클러뷰는 다양한 방식으로 만들어 낼 수 있기 때문에 개발자마다 만들어내는 방식이 제각각인데
+  그렇기 때문에 구현할수 있음에 그칠게 아니라 완져어언 디테일하게 들어가서 동작방식 구성 등 확실히 체크할 필요가 있을거 같다.
 + 리펙토링
++ object 활용
 
 ## 📌 사용한 오픈소스
 [Zxing](https://github.com/zxing/zxing)

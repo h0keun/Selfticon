@@ -5,7 +5,7 @@
   + Material Design : Custom Bottom Navigation, Material textfield
   + Glide + Content Provider
   + RecyclerView + Firebase : Realtime Database, Storage
-  + zxing Library, Web
+  + zxing Library, Web, swiperefreshlayout
 
 ## 🎤 소개
 'Selfticon'은 기프티콘을 만들어주는 앱이다.
@@ -78,15 +78,34 @@
 ## 🛠 개발과정 겪었던 에러와 해결방안
 + Firebase를 다루는 부분에서 에러가 많이 발생했고, 나머지 에러들은 어렵지않게 해결할 수 있었다.
 ```KOTLIN
-* 자잘한 에러사항
-
-
-```
-```KOTLIN
 * Firebase - Realtime Database를 사용하며 겪었던 에러
 
+onChildAdded vs onDataChanged 
+기프티콘 생성과정에서 onChildAdded 를 사용하엿고, 
+기프티콘 생성과정에서 onDataChanged 를 사용하였는데,
+
+명확한 구분이 필요하다. 하나는 리사이클러뷰에 업데이트 하나는 실시간 데이터확인??
+
+작성중...
 
 ```
++ 기프티콘 공유하기
+  [링크 참조 - FileProvider](https://keykat7.blogspot.com/2021/02/android-fileprovider.html)  
+  [링크 참조 - View 영역지정](https://hongdroid.tistory.com/6)
+  ```KOTLIN
+  * firebase 외에 저장소는 최대한 쓰지 않으려고 노력했다.
+  
+  처음에는 생성한 기프티콘을 공유하기위해 
+  
+  1. 화면을 캡쳐하고 
+  2. 갤러리에 저장된 캡쳐화면에서 기프티콘영역만 따로 잘라낸 후
+  3. 공유하기
+
+  위의 단계를 거치려고 하였으나, 사용자 입장에서 해당 앱 이외에 또 다른 앱을 사용해야 한다는 번거로움과
+  추가적인 저장공간을 필요로 하기 때문에 더 나은 방안이 있을까 구글링 하게되었고, 
+  위의 링크를 참조하여 저장소에 저장하는것 없이 특정View(기프티콘 영역) 만 캡쳐하여 
+  바로 공유하는 방식을 구현하였다.
+  ```
 ### ⚙ 찾은 버그
 1. 기프티콘 만들 때 입력정보 없이 만들게되면 앱 오류나서 꺼짐 + 다시 들어갈때도 강종됨  
   : 파이어베이스 데이터 정보를 확인해보니 리얼타임DB 의 model 값들이 전부 null로 초기화되어서 아이템이 Null값으로 1개만존재하게 되어 생긴 문제  

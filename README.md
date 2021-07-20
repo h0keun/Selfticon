@@ -119,7 +119,7 @@ onDataChanged()를 사용한 이유
 해결방안은 아래 '⚙ 찾은 버그' 에 기술해 두었음!
  
 ```
-+ 기프티콘 공유하기  
++ 발생한 에러는 아니지만 기프티콘 공유하기 부분에서 이러한 방법이 있구나 하는것을 
 [링크 참조 - FileProvider](https://keykat7.blogspot.com/2021/02/android-fileprovider.html)  
 [링크 참조 - View 영역지정](https://hongdroid.tistory.com/6)
 ```KOTLIN

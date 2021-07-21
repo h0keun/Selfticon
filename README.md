@@ -159,7 +159,8 @@ onDataChanged()를 사용한 이유
   : companion object를 통해 미리 널러블한 기프티콘 변수(정보) 들을 선언하고 onActivityResult를 통해 받아온 정보들을 변수값에 할당하였다. 
   이어서 addValueEventListener를 호출함으로써 onDataChange에서 값이 할당된 companion object 변수들을 사용할 수 있었고,
   변수들을 조합해 Firebase 데이터베이스와 비교가 가능하도록 하였다(위의 2. 과정) 
-  이후 최종적으로 onDestroyView에서 removeValueEventListener 를 호출하여 의도와는 다른 이벤트가 실행되는 것을 해결하였다.
+  이후 최종적으로 onDestroyView에서 removeValueEventListener 를 호출함으로써 ScanFragment를 벗어났을 때 이벤트를 아예 종료시켜
+  onDataChange가 호출되는것을 방지하였고, 이를통해 의도와는 다른 이벤트가 실행되는 것을 해결하였다.
   ```
 
 ## 💡 개선 가능한 부분 및 추가로 알아볼 부분

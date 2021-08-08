@@ -169,6 +169,8 @@ onDataChanged()를 사용한 이유
   그렇기 때문에 구현할수 있음에 그칠게 아니라 완져어언 디테일하게 들어가서 동작방식 구성 등 확실히 체크할 필요가 있을거 같다.
 + 리펙토링
 + object 활용
++ coordinatorlayout
++ custom UI
 
 ## 📌 사용한 오픈소스
 [Zxing](https://github.com/zxing/zxing)

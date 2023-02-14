@@ -28,6 +28,9 @@
 ## 💰 기대효과
 일반 사용자들은 개인이 직접만드는 기프티콘을 통해 재미를 얻을 수 있고, 소상공인분들은 자체서비스를 이용한다거나 카카오톡 기프트샾, 당근마켓 등 의 플랫폼을 활용한다던가 함으로써 매출상승 효과를 얻을 수 있다.
 
+## 플로우차트
+<img src="https://user-images.githubusercontent.com/63087903/218631703-3ba1d543-673b-494a-b7b9-d63bf38d1b53.jpg" width="950" height="630">
+
 ## 와이어프레임
 <img src="https://user-images.githubusercontent.com/63087903/185380016-fa285ad6-a31f-4c83-8a0f-ae43d20cb452.jpg" width="950" height="630">
 

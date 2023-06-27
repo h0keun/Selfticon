@@ -1,6 +1,6 @@
 ## 📸 Selfticon
 + 개발환경 : Android Studio, Kotlin, Git
-+ 개발기간 : 2021.04 ~ 2021.05
++ 개발기간 : 2021.04 ~ 2021.06
 + 기술스텍 및 라이브러리  
   + Material Design : Custom Bottom Navigation, Material textfield
   + Glide + Content Provider
